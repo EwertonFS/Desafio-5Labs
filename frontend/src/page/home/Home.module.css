@@ -1,12 +1,12 @@
 .background {
-  position: relative;
+ /*  position: relative; */
+  display:inline-grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  gap: 1%;
   background-color: var(--primary);
   height: 100vh;
   width: 100vw;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 32%;
-  gap: 1%;
   padding: 0% 5% 0% 5%;
 }
 
@@ -21,6 +21,7 @@
   border-radius: 1%;
   overflow: hidden;
   padding:0;
+  height: 100%;
 }
 
 .banner img {
@@ -41,10 +42,9 @@
 }
 
 .main {
-  display:flex;
   background-color: var(--secondary);
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(14%, 1fr));
   grid-template-rows: auto;
   gap: 10% 5%;
   padding: 2%;

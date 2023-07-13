@@ -1,17 +1,19 @@
-import { useLocation } from 'react-router-dom';
-import React from 'react';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import style from './Checkout.module.css'
+
+
 interface FormValues {
   firstName: string;
   lastName: string;
   telephone: string;
   email: string;
   document: string;
-  cpf: string;
-  cnpj: string;
+  /* cpf: string;
+  cnpj: string; */
   cep: string;
   logradouro: string;
   gia: string;
@@ -32,15 +34,30 @@ export const Checkout: React.FC = () => {
   const vehicleName = searchParams.get('vehicleName');
   const vehicleModel = searchParams.get('vehicleModel');
   const vehicleClass = searchParams.get('vehicleClass');
+  const vehicleImage = searchParams.get('vehicleImg');
+  const vehicleValueNav = searchParams.get('vehicleValueNav');
 
 
+  const navigate = useNavigate()
+  
+  interface Props {
+    style :{
+     check :"string"
 
+   }
+ }
+ /* const Confirmation =({style}:Props)=>{
 
+ } */
+   
+ const [check ,setCheck] =useState(false)
+   
+ const handleCheck =(event: React.ChangeEvent<HTMLInputElement>)=>{
+   setCheck(event.target.checked)
+ }
 
-
-
-
-
+   console.log(check)
+  
   const formik = useFormik<FormValues>({
     initialValues: {
       firstName: "",
@@ -48,8 +65,8 @@ export const Checkout: React.FC = () => {
       telephone: "",
       email: "",
       document: '',
-      cpf: "",
-      cnpj: "",
+      /* cpf: "",
+      cnpj: "", */
       cep: "",
       logradouro: "",
       gia: "",
@@ -57,7 +74,7 @@ export const Checkout: React.FC = () => {
       bairro: "",
       localidade: "",
       uf: "",
-      paymentMethod: 'boleto',
+      paymentMethod: 'cartao',
       cardNumber: '',
       cardExpiration: '',
       cardHolderName: '',
@@ -65,40 +82,107 @@ export const Checkout: React.FC = () => {
 
     },
     validationSchema: Yup.object({
-      firstName: Yup.string()
-        .min(2, "Too Short!")
-        .max(50, "Too Long!")
-        .required("Required"),
-      lastName: Yup.string()
-        .min(2, "Too Short!")
-        .max(50, "Too Long!")
-        .required("Required"),
-      email: Yup.string().email("Invalid email").required("Required"),
-      document: Yup.string().test('document-validation', 'Invalid document', (value) => {
-        const cpfRegex = /^\d{11}$/;
-        const cnpjRegex = /^\d{14}$/;
-        return value !== undefined && (cpfRegex.test(value) || cnpjRegex.test(value));
-      }).required('Required'),
-      cpf: Yup.string().test("cpf-validation", "Invalid CPF", function (value) {
-        const { document } = this.parent;
-        if (document === "cpf") {
-          const regex = /^\d{11}$/;
-          return regex.test(value || "");
-        }
-        return true;
-      }),
-      cnpj: Yup.string().test("cnpj-validation", "Invalid CNPJ", function (value) {
-        const { document } = this.parent;
-        if (document === "cnpj") {
-          const regex = /^\d{14}$/;
-          return regex.test(value || "");
-        }
-        return true;
-      })
+      firstName:
+        Yup.string()
+          .min(2, "Too Short!")
+          .max(50, "Too Long!")
+          .matches(/^[A-Z][a-z]*$/, "Incie com letra maiúsculas")
+          .required("Preencha o Nome."),
+      lastName:
+        Yup.string()
+          .min(2, "Too Short!")
+          .max(50, "Too Long!")
+          .matches(/^[A-Z][a-zA-Z]*(\s[A-Z][a-zA-Z]*)*$/, "Incie com letra maiúsculas")
+          .required("Preencha Sobrenome"),
+      telephone:
+        Yup.string()
+          .matches(/^\+?\d{1,3}[-.\s]?\(?\d{1,3}\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
+            "Número Invalido")
+          .required("Preencha Telefone"),
+      email:
+        Yup.string()
+          .email("Invalid email")
+          .matches(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)
+          .required("Preencha Email"),
+      document:
+        Yup.string()
+          .test("document-validation", "Invalid document", (value) => {
+            const cpfRegex = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
+            const cnpjRegex = /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/;
+            return value !== undefined && (cpfRegex.test(value) || cnpjRegex.test(value));
+          })
+          .required('Required'),
+      paymentMethod:
+        Yup.string()
+          .test(
+            "payment-validation", "boleto",
+            function () {
+              const { paymentMethod } = this.parent
+              if (paymentMethod === "cartao" || "boleto") {
+                return true
+              }
+
+
+            }
+
+
+          ),
+      /*  cpf: 
+       Yup.string()
+       .test("cpf-validation", "Invalid CPF", function (value) {
+         const { document } = this.parent;
+         if (document === "cpf") {
+           const regex = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
+           return regex.test(value || "");
+         }
+         return true;
+       }),
+       /*cnpj: 
+       Yup.string()
+       .test("cnpj-validation", "Invalid CNPJ", function (value) {
+         const { document } = this.parent;
+         if (document === "cnpj") {
+          
+          const regex =/^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/;
+           return regex.test(value || "");
+         }
+         return true;
+       }), */
+      cep:
+        Yup.string()
+          .matches(/^[0-9]{8}$/, "Invalid CEP")
+          .required("CEP is required"),
+      cardNumber:
+        Yup.string()
+          .matches(/^\d{16}$/, 'Número do cartão inválido')
+      /* .required('Número do cartão é obrigatório') */,
+      cardHolderName: Yup.string()
+        .matches(/^[A-Za-z\s]+$/, 'Digite um nome válido')
+      /* .required('Preencha o nome do titular') */,
+      cardExpiration:
+        Yup.string()
+          .matches(/^(0[1-9]|1[0-2])\/\d{2}$/)
+      /* .required("Digite Data Vencimento") */,
+      cardCvv:
+        Yup.string()
+          .matches(/^\d{3,4}$/, "CVV inválido. Insira um CVV válido com 3 ou 4 dígitos.")
+      /* .required("CVV é obrigatório.") */,
+
+
     }),
     onSubmit: (values) => {
       console.log(values)
-      alert(JSON.stringify(values, null, 2));
+      if(check === false){
+        alert("É necessário confimar politica de envio no Cabeçario")
+      }
+        
+      if(check === true){
+        navigate('/Checkout/Sucess')
+        alert(JSON.stringify(values, null, 2));
+
+      }
+
+
     },
   });
 
@@ -123,26 +207,62 @@ export const Checkout: React.FC = () => {
       });
   };
 
+  
+  
+
+  
+  
+
+
+
   return (
 
     <div className={style.container}>
-      <div className="title">
-      </div>
+
 
       <div className={style.confirmation}>
-
-        <p>
-          <span>Nome:</span>{vehicleName}
-        </p>
-        <p>
-          <span>Modelo:</span>{vehicleModel}
-        </p>
-        <p><span>Veículo:</span>{vehicleClass}</p>
+        <div className={style.image}>
+          {/* operador de coalescência nula */}
+          <img src={vehicleImage ?? undefined} />
+        </div>
+        <div className={style.description}>
+          <p>
+            <span>Nome:</span>{vehicleName}
+          </p>
+          <p>
+            <span>Modelo:</span>{vehicleModel}
+          </p>
+          <p><span>Veículo:</span>{vehicleClass}</p>
+          <h3>
+            <span>Valor:</span>{vehicleValueNav}
+          </h3>
+        </div>
+        <div className={style.check}>
+          <form>
+            <p>
+              <label htmlFor="check">
+              </label>
+              <input 
+              type="checkbox" 
+              id="check" 
+              name="check" 
+              value="check" 
+              onChange={handleCheck}
+              />
+              </p>
+          </form>
+          <p>
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Est incidunt ut  aperiam omnis aliquam obcaecati, nostrum,aperiam omnis aliquam obcaecati.
+          </p>
+        </div>
       </div>
-      <h4> Preencha os dados para prosseguir com a compra</h4>
+      <div className={style.title}>
+        <h1> Preencha os dados para prosseguir com a compra</h1>
+      </div>
+
       <div className={style.main}>
         <form className={style.form} onSubmit={formik.handleSubmit}>
-          <label htmlFor="firstName">First Name</label>
+          <label htmlFor="firstName">Nome</label>
           <input
             id="firstName"
             name="firstName"
@@ -150,12 +270,14 @@ export const Checkout: React.FC = () => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.firstName}
+            placeholder='Digite seu nome'
+            required
           />
           {formik.touched.firstName && formik.errors.firstName ? (
             <div>{formik.errors.firstName}</div>
           ) : null}
 
-          <label htmlFor="lastName">Last Name</label>
+          <label htmlFor="lastName">Sobrenome</label>
           <input
             id="lastName"
             name="lastName"
@@ -163,25 +285,32 @@ export const Checkout: React.FC = () => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.lastName}
+            placeholder='Digite seu Sobrenome'
+            required
           />
           {formik.touched.lastName && formik.errors.lastName ? (
             <div>{formik.errors.lastName}</div>
           ) : null}
 
-          <label htmlFor="telephone">Last Name</label>
+          <label htmlFor="telephone">Telefone</label>
+          {/*Acrescentar key*/}
           <input
             id="telephone"
             name="telephone"
-            type="text"
+            type="tel"
+            inputMode="numeric"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.telephone}
+            placeholder='Numero Telefone'
+            /* pattern="[0-9\-().\s]*" */
+            required
           />
-          {formik.touched.lastName && formik.errors.lastName ? (
-            <div>{formik.errors.lastName}</div>
+          {formik.touched.telephone && formik.errors.telephone ? (
+            <div>{formik.errors.telephone}</div>
           ) : null}
 
-          <label htmlFor="email">Email Address</label>
+          <label htmlFor="email">Email</label>
           <input
             id="email"
             name="email"
@@ -189,12 +318,14 @@ export const Checkout: React.FC = () => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.email}
+            placeholder='Digite seu Email'
+            required
           />
           {formik.touched.email && formik.errors.email ? (
             <div>{formik.errors.email}</div>
           ) : null}
 
-          <label htmlFor="document">Document (CPF or CNPJ)</label>
+          <label htmlFor="document">Documento (CPF ou CNPJ)</label>
           <input
             id="document"
             name="document"
@@ -202,10 +333,13 @@ export const Checkout: React.FC = () => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.document}
+            placeholder='CPF:000.000.000-00 CNPJ:00.000.000/0000-00'
+            required
           />
           {formik.touched.document && formik.errors.document ? (
             <div>{formik.errors.document}</div>
           ) : null}
+
 
           <label htmlFor="cep">Cep</label>
           <input
@@ -215,12 +349,14 @@ export const Checkout: React.FC = () => {
             onChange={formik.handleChange}
             onBlur={onBlurCep}
             value={formik.values.cep}
+            placeholder='Digite seu cep'
+            required
           />
           {formik.touched.cep && formik.errors.cep ? (
             <div>{formik.errors.cep}</div>
           ) : null}
 
-          <label htmlFor="logradouro">logradouro</label>
+          <label htmlFor="logradouro">Bairro</label>
           <input
             id="logradouro"
             name="logradouro"
@@ -228,12 +364,14 @@ export const Checkout: React.FC = () => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.logradouro}
+            placeholder='Identificação do Bairro'
+
           />
           {formik.touched.logradouro && formik.errors.logradouro ? (
             <div>{formik.errors.logradouro}</div>
           ) : null}
 
-          <label htmlFor="gia">gia</label>
+          <label htmlFor="gia">Número Residencia</label>
           <input
             id="gia"
             name="gia"
@@ -241,12 +379,14 @@ export const Checkout: React.FC = () => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.gia}
+            placeholder='Digite número da residência'
+            required
           />
           {formik.touched.gia && formik.errors.gia ? (
             <div>{formik.errors.gia}</div>
           ) : null}
 
-          <label htmlFor="complemento">complemento</label>
+          <label htmlFor="complemento">Complemento</label>
           <input
             id="complemento"
             name="complemento"
@@ -254,12 +394,14 @@ export const Checkout: React.FC = () => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.complemento}
+            placeholder="Digite Complemento"
+
           />
           {formik.touched.complemento && formik.errors.complemento ? (
             <div>{formik.errors.complemento}</div>
           ) : null}
 
-          <label htmlFor="bairro">bairro</label>
+          <label htmlFor="bairro">Bairro</label>
           <input
             id="bairro"
             name="bairro"
@@ -267,12 +409,14 @@ export const Checkout: React.FC = () => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.bairro}
+            readOnly
+            placeholder="Identificação do Bairro"
           />
           {formik.touched.bairro && formik.errors.bairro ? (
             <div>{formik.errors.bairro}</div>
           ) : null}
 
-          <label htmlFor="localidade">localidade</label>
+          <label htmlFor="localidade">Cidade</label>
           <input
             id="localidade"
             name="localidade"
@@ -280,12 +424,14 @@ export const Checkout: React.FC = () => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.localidade}
+            readOnly
+            placeholder="Identificação do Cidade"
           />
           {formik.touched.localidade && formik.errors.localidade ? (
             <div>{formik.errors.localidade}</div>
           ) : null}
 
-          <label htmlFor="uf">uf</label>
+          <label htmlFor="uf">Estado</label>
           <input
             id="uf"
             name="uf"
@@ -293,12 +439,14 @@ export const Checkout: React.FC = () => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.uf}
+            readOnly
+            placeholder="Identificação do Estado"
           />
           {formik.touched.uf && formik.errors.uf ? (
             <div>{formik.errors.uf}</div>
           ) : null}
 
-          <label htmlFor="paymentMethod">Payment Method</label>
+          <label htmlFor="paymentMethod">Forma Pagamento</label>
           <select
             id="paymentMethod"
             name="paymentMethod"
@@ -315,7 +463,7 @@ export const Checkout: React.FC = () => {
 
           {formik.values.paymentMethod === 'cartao' && (
             <>
-              <label htmlFor="cardNumber">Card Number</label>
+              <label htmlFor="cardNumber">Número do Cartão</label>
               <input
                 id="cardNumber"
                 name="cardNumber"
@@ -323,12 +471,15 @@ export const Checkout: React.FC = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.cardNumber}
+                placeholder="São 16 Dígitos Numericos"
+                /*  pattern="/^(?:\d{16}|\d{4}\s\d{4}\s\d{4}\s\d{4})$/" */
+                required
               />
               {formik.touched.cardNumber && formik.errors.cardNumber ? (
                 <div>{formik.errors.cardNumber}</div>
               ) : null}
 
-              <label htmlFor="cardExpiration">Card Expiration (MM/YY)</label>
+              <label htmlFor="cardExpiration">Vencimento(MM/YY)</label>
               <input
                 id="cardExpiration"
                 name="cardExpiration"
@@ -336,12 +487,14 @@ export const Checkout: React.FC = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.cardExpiration}
+                placeholder="Vencimento 00/00"
+                required
               />
               {formik.touched.cardExpiration && formik.errors.cardExpiration ? (
                 <div>{formik.errors.cardExpiration}</div>
               ) : null}
 
-              <label htmlFor="cardHolderName">Card Holder Name</label>
+              <label htmlFor="cardHolderName">Nome do Titular</label>
               <input
                 id="cardHolderName"
                 name="cardHolderName"
@@ -349,12 +502,15 @@ export const Checkout: React.FC = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.cardHolderName}
+                placeholder="Digite o nome do titular"
+                style={{ textTransform: 'uppercase' }}
+              /* required */
               />
               {formik.touched.cardHolderName && formik.errors.cardHolderName ? (
                 <div>{formik.errors.cardHolderName}</div>
               ) : null}
 
-              <label htmlFor="cardCvv">CVV</label>
+              <label htmlFor="cardCvv">Código Segurança</label>
               <input
                 id="cardCvv"
                 name="cardCvv"
@@ -362,6 +518,8 @@ export const Checkout: React.FC = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.cardCvv}
+                placeholder="Cvv 3 ou 4 digitos verso cartão"
+                required
               />
               {formik.touched.cardCvv && formik.errors.cardCvv ? (
                 <div>{formik.errors.cardCvv}</div>
