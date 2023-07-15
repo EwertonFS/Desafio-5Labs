@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router-dom"
-import { Home } from "../page/home"
-import { Checkout } from "../page/checkout"
+import { Home } from "../page/home/HomePage"
+import { Checkout } from "../page/checkout/CheckoutPage"
 import { Sucess } from "../page/sucess"
-import { Error } from "../page/error"
+import { Error } from "../page/error/ErrorPage"
 
 export const RouteApp = () =>{
 
@@ -15,7 +15,8 @@ export const RouteApp = () =>{
 
       <Route path="/checkout/sucess" element={<Sucess />} />
       
-      <Route path="/checkout/error" element={<Error />} />
+      <Route path="*" element={<Error />} />
+      
     </Routes>
     </>
  

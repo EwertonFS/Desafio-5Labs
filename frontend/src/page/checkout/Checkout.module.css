@@ -2,6 +2,7 @@
  /*  position:absolute; */
   background-color: var(--primary);
   height: 100vh;
+  min-height: 100vh;
   width: 100vw;
   color: var(--fontPrimary);
   display: grid;
@@ -9,10 +10,6 @@
   grid-template-rows:20% 8% 72%;
   gap:0;
   justify-items:center;
- /*  place-items:center; */
-  /* align-items: center;
-  justify-content: space-evenly;
-  padding: 2% 0% 2% 0%; */
 }
 
 .confirmation {
@@ -29,6 +26,7 @@
     "image description"
     "check check";
 }
+
 .image{
   display:grid;
 }
@@ -49,22 +47,34 @@
   grid-rows:10%;
   gap:2px;
   font-size:70%;
- 
+  color:var(--third)
 }
+
+.highlight{
+  color:var(--white);
+  font-weight:bold;
+}
+
 
 
 .check{
   grid-area: check;
   display: flex;
-  /*  align-items:center; */
-  text-align: center;
-  font-size: 0.4rem;
+  flex-direction:rows;
+  align-items:left;
+  text-align:center;
   padding: 0% 20% 0% 20%; 
+  
+}
+
+.check.form{
+  display:flex;
 }
 
 input[type=checkbox] {
-  transform: scale(1.5);
-}
+  transform: scale(2.0);
+  
+} 
 
 
 .title{
@@ -108,6 +118,13 @@ input {
   width: 60%;
   height: 3%;
 }
+
+.error-message {
+  color: red;
+  font-weight:bold;
+}
+
+
 
 /* .infoPerson{
 color: var(--fontPrimary);
