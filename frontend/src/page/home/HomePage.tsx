@@ -1,16 +1,18 @@
 import style from "./Home.module.css";
 import logo from "../../assets/logo3D.png";
-import imgLocal from "../../assets/nav2.jpeg"
+import imgLocal from "../../assets/nav5.jpeg";
 import stylesVideo from "./Home.module.css";
 import videoSrc from '../../assets/videoRemove.mp4';
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import styles from "../../components/button/Button.module.css"
-import { BASE_URL_BEECEPTOR } from "../../constants/constants";
-import { StarWarsImgMock, StarWarsResponse} from "../../interfaces";
+import { starWarsStore } from "../../service/StarWarsStore";
+import { cardsStore } from "../../service/CarsStore"; 
+import { observer } from 'mobx-react-lite';
 
-export function Home() {
+
+export const Home = observer (() => {
+ 
   /* interface StarWarsVehicle {
     name: string;
     model: string;
@@ -31,7 +33,7 @@ export function Home() {
     valueNav: string;
   } */
 
-  const [starWars, setStarWars] = useState<StarWarsResponse>({
+  /* const [starWars, setStarWars] = useState<StarWarsResponse>({
     count: 0,
     next: null,
     previous: null,
@@ -50,10 +52,10 @@ export function Home() {
       .catch((error) => {
         console.log(error);
       });
-  };
+  }; */
   
   /*Api Mockada para exibir imagem*/
-   const [cards, setCards] = useState<StarWarsImgMock[]>([]);
+   /* const [cards, setCards] = useState<StarWarsImgMock[]>([]);
    const getImageMock = () => {
      axios
        .get(`${BASE_URL_BEECEPTOR}`)
@@ -61,20 +63,22 @@ export function Home() {
          console.log(response.data);
          setCards(response.data);
        });
-  }; 
+  }; */ 
+
+  
 
   useEffect(() => {
-    getVehicle();
-    getImageMock();
+    starWarsStore.getVehicle();
+     cardsStore.getImageMock(); 
   }, []);
 
 
 
-  let combinedArray = starWars.results.map((result, index) => {
-    return Object.assign({}, result, cards[index]);
+   let combinedArray = starWarsStore.starWars.results.map((result, index) => {
+    return Object.assign({}, result, cardsStore.cards[index]);
   });
 
-  console.log(combinedArray);
+  console.log(combinedArray); 
 
 
 
@@ -98,7 +102,7 @@ export function Home() {
           {combinedArray.map((vehicle) => (
             <div className={style.card} key={vehicle.url}>
               <div className={style.cardContent}>
-                <img src={vehicle.urlImage?vehicle.urlImage:imgLocal} />
+                <img src={ vehicle.urlImage?vehicle.urlImage:imgLocal } />
               </div>
               <div className={style.cardFooter}>
                 <p>
@@ -114,8 +118,8 @@ export function Home() {
                   {vehicle.vehicle_class}
                 </p>
                 <p>
-                  <span>valor:</span>
-                  {vehicle.valueNav}
+                  <span>valor</span>
+                  { vehicle.valueNav?vehicle.valueNav:"100" }
                 </p>
                 
                 <Link
@@ -124,9 +128,9 @@ export function Home() {
                     search: `
                     &vehicleName=${vehicle.name}
                     &vehicleModel=${vehicle.model}
-                    &vehicleClass=${vehicle.vehicle_class},
-                    &vehicleImg=${vehicle.urlImage}
-                    &vehicleValueNav=${vehicle.valueNav}`
+                    &vehicleClass=${vehicle.vehicle_class}`,
+                   /*  &vehicleImg=${vehicle.urlImage}
+                    &vehicleValueNav=${vehicle.valueNav}` */
                   }}
                 >
                   <button className={styles.buttonBuy}>Comprar</button>
@@ -138,4 +142,4 @@ export function Home() {
       </div>
     </>
   );
-}
+});

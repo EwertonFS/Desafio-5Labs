@@ -1,0 +1,28 @@
+GET http://localhost:3003/cards
+
+
+###
+
+POST  http://localhost:3003/payment
+Content-Type: application/json
+
+{
+    "firstName":"Ewerton",
+    "lastName": "Francis",
+    "telephone":"79998311993",
+    "email": "ewerton.lost2@gmail.com",
+   " document":"cpf",
+   " cep": "49035140",
+    "logradouro": ,
+    "gia": "14",
+    "complemento":"Alexandre Freire Barros",
+    "bairro":"coroa-do-meio",
+    "localidade":"aracaju",
+    "uf":"SE",
+    "paymentMethod":"boleto" ,
+    "cardNumber": ,
+    "cardExpiration": ,
+    "cardHolderName": ,
+    "cardCvv": ,
+  
+}

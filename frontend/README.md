@@ -28,7 +28,11 @@ Ordered
    - [x] ReactJS, 
    - [x] Typescript,
    - [x] Formik e Yup;
-   - [] MobX,
+   - [x] MobX,
+    
+     ###  Plus:
+   - [] 2.Adcionado imagens atravez de api mockada e mescalada api projeto
+
 
 <h3 align="left">Tecnology</h3>
 <p align="left">
