@@ -23,9 +23,9 @@
 
 
 
-/* 320px — 480px: dispositivos móveis */
+
 @media (min-width: 320px) and (max-width: 480px) {
-    /* Adicione aqui os estilos para dispositivos móveis */
+    
         .Container {
             background-size:cover;
             background-color:var(--primary);
@@ -39,7 +39,7 @@
   }
   
 
-/* 481px — 768px: iPads, tablets */
+
 @media (min-width:481px) and (max-width:768px){
     .Container {
         background-size:cover;
@@ -51,16 +51,13 @@
     
 
 }
-/*769px — 1024px: telas pequenas, laptops */
+
 @media (min-width:769px) and (max-width:1024px){
     .content{
         text-align:left;
         font-size:3.5vw;
     } 
 }
-/*1025px — 1200px: desktops, telas grandes */
-@media min(min-width:1025px) and (max-width:1200px){
-   
-}
+
 
 

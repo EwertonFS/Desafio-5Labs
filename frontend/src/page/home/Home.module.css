@@ -1,6 +1,6 @@
 .background {
   display:grid;
-  grid-template-columns:  repeat(auto-fit, minmax(1fr, 1fr));/*1fr*/
+  grid-template-columns:  repeat(auto-fit, minmax(1fr, 1fr));
   grid-template-rows:30vh 70vh;
   gap: 1%;
   background-color: var(--primary);

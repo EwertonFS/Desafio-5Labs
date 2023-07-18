@@ -4,30 +4,6 @@ import axios from "axios";
 
 
 
-
-/* export const [starWars, setStarWars] = useState<StarWarsResponse>({
-    count: 0,
-    next: null,
-    previous: null,
-    results: [],
-  });
-
-
- export  const getVehicle = () => {
-    axios
-      .get("https://swapi.dev/api/vehicles")
-      .then((response) => {
-        console.log(response);
-        setStarWars(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }; */
-
-
-
-
 class StarWarsStore {
   starWars: StarWarsResponse =
     {

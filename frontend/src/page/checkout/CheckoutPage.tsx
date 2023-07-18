@@ -13,8 +13,6 @@ interface FormValues {
   telephone: string;
   email: string;
   document: string;
-  /* cpf: string;
-  cnpj: string; */
   cep: string;
   logradouro: string;
   gia: string;
@@ -41,13 +39,6 @@ export const Checkout: React.FC = () => {
 
   const navigate = useNavigate()
   
- /*  interface Property{
-    style :{
-     check :"string"
-
-   }
- } */
- 
  const [check ,setCheck] =useState(false)
    
  const handleCheck =(event: React.ChangeEvent<HTMLInputElement>)=>{
@@ -63,8 +54,6 @@ export const Checkout: React.FC = () => {
       telephone: "",
       email: "",
       document: '',
-      /* cpf: "",
-      cnpj: "", */
       cep: "",
       logradouro: "",
       gia: "",
@@ -200,7 +189,7 @@ export const Checkout: React.FC = () => {
 
       <div className={style.confirmation}>
         <div className={style.image}>
-          {/* operador de coalescência nula */}
+          
           <img src={vehicleImage ?? undefined} />
         </div>
         <div className={style.description}>
@@ -336,7 +325,7 @@ export const Checkout: React.FC = () => {
             <div style={{ color: 'red' }}>{formik.errors.cep}</div>
           ) : null}
 
-          <label htmlFor="logradouro">Bairro</label>
+          <label htmlFor="logradouro">Logradouro</label>
           <input
             id="logradouro"
             name="logradouro"
@@ -345,7 +334,8 @@ export const Checkout: React.FC = () => {
             onBlur={formik.handleBlur}
             value={formik.values.logradouro}
             placeholder='Identificação do Bairro'
-
+            readOnly
+            required
           />
           {formik.touched.logradouro && formik.errors.logradouro ? (
             <div style={{ color: 'red' }}>{formik.errors.logradouro}</div>
@@ -391,6 +381,7 @@ export const Checkout: React.FC = () => {
             value={formik.values.bairro}
             readOnly
             placeholder="Identificação do Bairro"
+            required
           />
           {formik.touched.bairro && formik.errors.bairro ? (
             <div style={{ color: 'red' }}>{formik.errors.bairro}</div>
@@ -406,6 +397,7 @@ export const Checkout: React.FC = () => {
             value={formik.values.localidade}
             readOnly
             placeholder="Identificação do Cidade"
+            required
           />
           {formik.touched.localidade && formik.errors.localidade ? (
             <div style={{ color: 'red' }}>{formik.errors.localidade}</div>
@@ -421,6 +413,7 @@ export const Checkout: React.FC = () => {
             value={formik.values.uf}
             readOnly
             placeholder="Identificação do Estado"
+            required
           />
           {formik.touched.uf && formik.errors.uf ? (
             <div style={{ color: 'red' }}>{formik.errors.uf}</div>
