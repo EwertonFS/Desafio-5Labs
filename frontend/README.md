@@ -14,7 +14,7 @@ Ordered
 - [x]3. Os veículos listados poderão ser adquiridos via checkout;
     - [x]a. Ao selecionar um dos veículos, direcionar para o checkout;
 
-- [ ]4. As exigências do check-out serão;
+- [x ]4. As exigências do check-out serão;
     - [ x] a. Informações Pessoais: nome, e-mail, telefone e cpf/cnpj;
     - [x ] b. Informações de Endereço: cep, endereço, numero, complemento,cidade, bairro, uf;
     - [ x] c. Importante: cliente informa apenas o CEP e obtém os demais dados da api [link text](viacep.com.br)
@@ -31,9 +31,13 @@ Ordered
    - [x] MobX,
     
      ###  Plus:
-   - [] 1.Adcionado imagens atravez de api mockada 
-   - [] 2.Deploy api para ter imagens e valores 
-   - [] 3.Responsividade
+   - [x] 1.Adcionado imagens atravez de api mockada 
+   - [x] 2.Deploy api para ter imagens e valores para os cards
+   - [x] 3.Loading Carregamento
+   - [x] 4.Responsividade
+   - [x] 5.Página de Erro
+
+    ###  Imagens:
 
 
 <h3 align="left">Tecnology</h3>
