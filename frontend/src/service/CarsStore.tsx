@@ -1,7 +1,7 @@
 import axios from "axios";
 import { makeAutoObservable } from "mobx";
 import { StarWarsImgMock } from "../interfaces/Interface";
-import { BASE_URL_BEECEPTOR } from "../constants/constants";
+import { BASE_URL_MYAPI } from "../constants/constants";
 
 
 /* export const [cards, setCards] = useState<StarWarsImgMock[]>([]); */
@@ -29,7 +29,7 @@ import { BASE_URL_BEECEPTOR } from "../constants/constants";
 
   getImageMock() {
     axios
-      .get(`${BASE_URL_BEECEPTOR}`)
+      .get(`${BASE_URL_MYAPI}`)
       .then((response) => {
         console.log(response.data);
         this.cards = response.data;

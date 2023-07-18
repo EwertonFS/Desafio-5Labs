@@ -31,7 +31,9 @@ Ordered
    - [x] MobX,
     
      ###  Plus:
-   - [] 2.Adcionado imagens atravez de api mockada e mescalada api projeto
+   - [] 1.Adcionado imagens atravez de api mockada 
+   - [] 2.Deploy api para ter imagens e valores 
+   - [] 3.Responsividade
 
 
 <h3 align="left">Tecnology</h3>

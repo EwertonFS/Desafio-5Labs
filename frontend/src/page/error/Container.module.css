@@ -1,12 +1,12 @@
 .Container{
     display:grid;
-    grid-template-column:1fr;
+    grid-template-columns:1fr;
     grid-rows:auto;
     height:100vh;
-    width:100vh;
+    width:100vw;
     place-items:center;
     background-color: var(--primary);
     color: var(--third);
     font-size:0.8rem;
-    text-align:left;
+    text-align:center;
 }

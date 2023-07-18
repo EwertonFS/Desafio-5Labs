@@ -1,12 +1,66 @@
+
 .Container{
-    position: relative;
-    background-color: var(--primary);
     height: 100vh;
-    width: 100vw;
-    display: grid;
-    color: var(--third);
+    width: 100vw; 
+    background-image: url('../../assets/sucess1_compressed.jpg');
+    background-repeat: no-repeat;
+    background-size:cover;
+    background-attachment: fixed; 
     display:flex;
     flex-direction:column;
-    align-items: center;
-    font-size: 2em;
+    background-position:left;
 }
+
+ .content{
+    color:var(--Primary);
+    text-align:right;
+    font-size: 2.5vw;
+    font-weigth:bold;
+    padding:14% 4% 0% 0%;
+    color:white;
+    width:100%;
+} 
+
+
+
+/* 320px — 480px: dispositivos móveis */
+@media (min-width: 320px) and (max-width: 480px) {
+    /* Adicione aqui os estilos para dispositivos móveis */
+        .Container {
+            background-size:cover;
+            background-color:var(--primary);
+            background-position:left;
+            height:100vh;
+        }
+     .content{
+         text-align:left;
+         font-size: 3.5vw;
+     } 
+  }
+  
+
+/* 481px — 768px: iPads, tablets */
+@media (min-width:481px) and (max-width:768px){
+    .Container {
+        background-size:cover;
+        background-color:var(--primary);
+        background-position:left;
+        height:100vh;
+
+    }
+    
+
+}
+/*769px — 1024px: telas pequenas, laptops */
+@media (min-width:769px) and (max-width:1024px){
+    .content{
+        text-align:left;
+        font-size:3.5vw;
+    } 
+}
+/*1025px — 1200px: desktops, telas grandes */
+@media min(min-width:1025px) and (max-width:1200px){
+   
+}
+
+

@@ -1,85 +1,43 @@
 import style from "./Home.module.css";
 import logo from "../../assets/logo3D.png";
-import imgLocal from "../../assets/nav5.jpeg";
 import stylesVideo from "./Home.module.css";
 import videoSrc from '../../assets/videoRemove.mp4';
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "../../components/button/Button.module.css"
 import { starWarsStore } from "../../service/StarWarsStore";
 import { cardsStore } from "../../service/CarsStore"; 
 import { observer } from 'mobx-react-lite';
+import styleLoading from './Home.module.css';
 
 
 export const Home = observer (() => {
- 
-  /* interface StarWarsVehicle {
-    name: string;
-    model: string;
-    vehicle_class: string;
-    url: string;
-  } */
-
-  /* interface StarWarsResponse {
-    count: number;
-    next: string | null;
-    previous: string | null;
-    results: StarWarsVehicle[];
-  }
-
-  interface StarWarsImgMock {
-    id: string;
-    urlImage: string;
-    valueNav: string;
-  } */
-
-  /* const [starWars, setStarWars] = useState<StarWarsResponse>({
-    count: 0,
-    next: null,
-    previous: null,
-    results: [],
-  });
-
   
 
-   const getVehicle = () => {
-    axios
-      .get("https://swapi.dev/api/vehicles")
-      .then((response) => {
-        console.log(response);
-        setStarWars(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }; */
-  
-  /*Api Mockada para exibir imagem*/
-   /* const [cards, setCards] = useState<StarWarsImgMock[]>([]);
-   const getImageMock = () => {
-     axios
-       .get(`${BASE_URL_BEECEPTOR}`)
-       .then((response) => {
-         console.log(response.data);
-         setCards(response.data);
-       });
-  }; */ 
 
-  
 
   useEffect(() => {
     starWarsStore.getVehicle();
      cardsStore.getImageMock(); 
   }, []);
 
-
+  
 
    let combinedArray = starWarsStore.starWars.results.map((result, index) => {
     return Object.assign({}, result, cardsStore.cards[index]);
   });
 
-  console.log(combinedArray); 
 
+  const [isLoading , setIsLoading]=useState(true)
+
+  useEffect(()=>{
+    if (starWarsStore.starWars.results.length >0
+      && cardsStore.cards.length > 0){
+      
+        setIsLoading(false)
+   }
+
+  },[combinedArray]);
 
 
   return (
@@ -98,11 +56,13 @@ export const Home = observer (() => {
         </div>
 
         <div className={style.main}>
-          
-          {combinedArray.map((vehicle) => (
+        {isLoading?
+        <span className={styleLoading.loader}></span>
+        :
+            combinedArray.map((vehicle) => (
             <div className={style.card} key={vehicle.url}>
               <div className={style.cardContent}>
-                <img src={ vehicle.urlImage?vehicle.urlImage:imgLocal } />
+                <img src={ vehicle.urlImage} />
               </div>
               <div className={style.cardFooter}>
                 <p>
@@ -118,8 +78,8 @@ export const Home = observer (() => {
                   {vehicle.vehicle_class}
                 </p>
                 <p>
-                  <span>valor</span>
-                  { vehicle.valueNav?vehicle.valueNav:"100" }
+                  <span>valor:</span>
+                  { vehicle.valueNav}
                 </p>
                 
                 <Link
@@ -128,9 +88,9 @@ export const Home = observer (() => {
                     search: `
                     &vehicleName=${vehicle.name}
                     &vehicleModel=${vehicle.model}
-                    &vehicleClass=${vehicle.vehicle_class}`,
-                   /*  &vehicleImg=${vehicle.urlImage}
-                    &vehicleValueNav=${vehicle.valueNav}` */
+                    &vehicleClass=${vehicle.vehicle_class}
+                    &vehicleImg=${vehicle.urlImage}
+                    &vehicleValueNav=${vehicle.valueNav}` 
                   }}
                 >
                   <button className={styles.buttonBuy}>Comprar</button>
@@ -138,6 +98,7 @@ export const Home = observer (() => {
               </div>
             </div>
           ))}
+        
         </div>
       </div>
     </>
