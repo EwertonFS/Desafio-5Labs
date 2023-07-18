@@ -1,4 +1,4 @@
-import {Navigate,useLocation, useNavigate } from 'react-router-dom';
+import {useLocation, useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -41,12 +41,12 @@ export const Checkout: React.FC = () => {
 
   const navigate = useNavigate()
   
-  interface Props {
+ /*  interface Property{
     style :{
      check :"string"
 
    }
- }
+ } */
  
  const [check ,setCheck] =useState(false)
    
