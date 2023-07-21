@@ -8,7 +8,7 @@ Ordered
 ## Lista de Tarefas
 
 - [x]1.Consumir a api de star wars, que possui a documentação em:
-[link text](https://swapi.dev/about);
+  [Api StarWars](https://swapi.dev/about);
 
 - [x]2. Da API listar os veículos conforme a documentação;
 
@@ -18,7 +18,7 @@ Ordered
 - [x ]4. As exigências do check-out serão;
     - [ x] a. Informações Pessoais: nome, e-mail, telefone e cpf/cnpj;
     - [x ] b. Informações de Endereço: cep, endereço, numero, complemento,cidade, bairro, uf;
-    - [ x] c. Importante: cliente informa apenas o CEP e obtém os demais dados da api [link text](viacep.com.br)
+    - [ x] c. Importante: cliente informa apenas o CEP e obtém os demais dados da api  [Api ViaCep](viacep.com.br)
     - [x ]d. Informações de pagamento: boleto ou cartão (número do cartão,validade, nome impresso e cvv);
     - [ x]5. Os formulários do checkout devem possuir validação (e-mail, cpf/cnpj);
     - [ x]6. Exibir tela de sucesso após a compra ou toast de erro no caso de dados
@@ -40,8 +40,8 @@ Ordered
 
     
     ###  Imagens:
-  [Challange-Image](https://jdrel-challenge-client.onrender.com/)
-  [Challang-Server](https://jdrel-challenge-server.onrender.com)
+    [Link-Site](https://jdrel-challenge-client.onrender.com/)<br>
+    [Link-MyServerSite](https://jdrel-challenge-server.onrender.com)
     ![Captura de tela de 2023-07-17 21-32-15](https://github.com/EwertonFS/JDREL-Challenge/assets/94709800/b8d377ce-ec60-40f8-8862-09fd77763e58)
     ![Captura de tela de 2023-07-18 09-37-54](https://github.com/EwertonFS/JDREL-Challenge/assets/94709800/4d4ebd0e-28d8-44c5-a2e0-2396678763bd)
     ![Captura de tela de 2023-07-18 09-39-01](https://github.com/EwertonFS/JDREL-Challenge/assets/94709800/a215d349-6354-4de6-8c00-2714cca46806)
